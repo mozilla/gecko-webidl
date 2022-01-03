@@ -1,5 +1,5 @@
 import { promises as fs } from "fs";
-import webidl2 from "webidl2";
+import * as webidl2 from "webidl2";
 
 /**
  * @param {string} text
@@ -28,7 +28,7 @@ const bodylessInterface = (tokeniser) => {
     return;
   }
   const tokens = { base };
-  tokens.name = tokeniser.consume("identifier");
+  tokens.name = tokeniser.consumeKind("identifier");
   tokens.termination = tokeniser.consume(";");
   if (!tokens.name || !tokens.termination) {
     tokeniser.unconsume(position);
@@ -53,7 +53,7 @@ const bodylessInterface = (tokeniser) => {
 const legacycallerInterface = (tokeniser) => {
   function legacycaller(tokeniser) {
     const { position } = tokeniser;
-    const base = tokeniser.consume("identifier");
+    const base = tokeniser.consumeKind("identifier");
     if (!base || base.value !== "legacycaller") {
       tokeniser.unconsume(position);
       return;
@@ -79,7 +79,7 @@ const legacycallerInterface = (tokeniser) => {
         w.token(tokens.base),
         ret.idlType?.write(w) ?? "",
         w.token(tokens.open),
-        ret.arguments.map(arg => arg.write(w)).join(""),
+        ret.arguments.map((arg) => arg.write(w)).join(""),
         w.token(tokens.close),
         w.token(tokens.termination),
       ].join("");
@@ -173,7 +173,7 @@ const callbackConstructor = (tokeniser) => {
     tokeniser.unconsume(position);
     return;
   }
-  tokens.name = tokeniser.consume("identifier") || tokeniser.error("No name");
+  tokens.name = tokeniser.consumeKind("identifier") || tokeniser.error("No name");
   tokens.equalSign = tokeniser.consume("=") || tokeniser.error("No =");
   const returnType =
     webidl2.return_type(tokeniser) || tokeniser.error("No return type");
@@ -211,7 +211,7 @@ function utf8stringRecord(tokeniser) {
   }
   const tokens = { base };
   tokens.open = tokeniser.consume("<");
-  tokens.key = tokeniser.consume("identifier");
+  tokens.key = tokeniser.consumeKind("identifier");
   if (!tokens.open || !tokens.key || tokens.key.value !== "UTF8String") {
     tokeniser.unconsume(position);
     return;
@@ -240,86 +240,14 @@ function utf8stringRecord(tokeniser) {
   };
 }
 
-function utf8stringField(tokeniser) {
-  const { position } = tokeniser;
-  const tokens = {};
-  const ret = new webidl2.Field({ source: tokeniser.source, tokens });
-  tokens.required = tokeniser.consume("required");
-  ret.idlType = utf8stringRecord(tokeniser);
-  if (!ret.idlType) {
-    tokeniser.unconsume(position);
-    return;
+// TODO: Add a way to override Type.parse without monkey patching it
+webidl2.Type._parse = webidl2.Type.parse;
+webidl2.Type.parse = (tokeniser) => {
+  const type = utf8stringRecord(tokeniser);
+  if (!type) {
+    return webidl2.Type._parse(tokeniser);
   }
-  tokens.name =
-    tokeniser.consume("identifier") ||
-    tokeniser.error("Dictionary member lacks a name");
-  ret.default = webidl2.Default.parse(tokeniser);
-  tokens.termination =
-    tokeniser.consume(";") ||
-    tokeniser.error("Unterminated dictionary member, expected `;`");
-  ret.write = function (w) {
-    return [
-      w.token(this.tokens.required),
-      this.idlType.write(w),
-      w.token(this.tokens.name),
-      this.default?.write(w) ?? "",
-      w.token(this.tokens.termination),
-    ].join("");
-  };
-  return ret;
-}
-
-function utf8stringDictionary(tokeniser) {
-  const { position } = tokeniser;
-  const base = tokeniser.consume("dictionary");
-  if (!base) {
-    return;
-  }
-  const tokens = { base };
-  try {
-    return webidl2.Container.parse(
-      tokeniser,
-      new webidl2.Dictionary({ source: tokeniser.source, tokens }),
-      {
-        type: "utf8string dictioanry",
-        inheritable: true,
-        allowedMembers: [[utf8stringField], [webidl2.Field.parse]],
-      }
-    );
-  } catch (err) {
-    throw err;
-    tokeniser.unconsume(position);
-  }
-}
-
-function utf8stringTypedef(tokeniser) {
-  const { position } = tokeniser;
-  const base = tokeniser.consume("typedef");
-  if (!base) {
-    return;
-  }
-  const tokens = { base };
-  const idlType = utf8stringRecord(tokeniser);
-  if (!idlType) {
-    tokeniser.unconsume(position);
-    return;
-  }
-  tokens.identifier =
-    tokeniser.consume("identifier") || tokeniser.error("No name");
-  tokens.terminator = tokeniser.consume(";") || tokeniser.error("No semicolon");
-  return {
-    type: "utf8string typedef",
-    tokens,
-    idlType,
-    write(w) {
-      return [
-        w.token(this.tokens.base),
-        this.idlType.write(w),
-        w.token(this.tokens.identifier),
-        w.token(this.tokens.terminator),
-      ].join("");
-    },
-  };
+  return type;
 }
 
 const directories = [
@@ -343,8 +271,6 @@ for (const dir of directories) {
         customNamespace,
         callbackConstructor,
         legacycallerInterface,
-        utf8stringDictionary,
-        utf8stringTypedef,
         callbackAttrInterface,
       ],
       concrete: true,
@@ -355,8 +281,7 @@ for (const dir of directories) {
     }
     let autofixed = false;
     for (const validation of validations) {
-      // if (validation.ruleName === "replace-void") {
-      if (validation.autofix && validation.ruleName !== "require-exposed") {
+      if (validation.ruleName === "replace-void") {
         validation.autofix();
         autofixed = true;
       }
