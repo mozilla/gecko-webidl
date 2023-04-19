@@ -3,16 +3,18 @@
   "version": "1.0.0",
   "description": "",
   "main": "lib/index.js",
-  "bin": {
-    "gecko": "bin/gecko.js"
-  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "author": "",
   "license": "ISC",
   "type": "module",
   "dependencies": {
     "webidl2": "github:pyoor/webidl2.js#allowed-members"
+  },
+  "devDependencies": {
+    "expect": "^29.5.0",
+    "jsondiffpatch": "^0.4.1",
+    "mocha": "^10.2.0"
   }
 }

@@ -1,0 +1,36 @@
+[
+  {
+    "type": "callback constructor",
+    "idlType": {
+      "type": "return-type",
+      "extAttrs": [],
+      "generic": "",
+      "nullable": false,
+      "union": false,
+      "idlType": "AudioWorkletProcessor"
+    },
+    "arguments": [
+      {
+        "type": "argument",
+        "name": "options",
+        "extAttrs": [],
+        "idlType": {
+          "type": "argument-type",
+          "extAttrs": [],
+          "generic": "",
+          "nullable": false,
+          "union": false,
+          "idlType": "object"
+        },
+        "default": null,
+        "optional": false,
+        "variadic": false
+      }
+    ],
+    "extAttrs": []
+  },
+  {
+    "type": "eof",
+    "value": ""
+  }
+]

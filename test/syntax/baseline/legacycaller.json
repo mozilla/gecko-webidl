@@ -1,0 +1,74 @@
+[
+  {
+    "type": "interface",
+    "name": "HTMLAllCollection",
+    "inheritance": null,
+    "members": [
+      {
+        "type": "operation",
+        "name": "",
+        "idlType": {
+          "type": "return-type",
+          "extAttrs": [],
+          "generic": "",
+          "nullable": true,
+          "union": true,
+          "idlType": [
+            {
+              "type": null,
+              "extAttrs": [],
+              "generic": "",
+              "nullable": false,
+              "union": false,
+              "idlType": "HTMLCollection"
+            },
+            {
+              "type": null,
+              "extAttrs": [],
+              "generic": "",
+              "nullable": false,
+              "union": false,
+              "idlType": "Element"
+            }
+          ]
+        },
+        "arguments": [
+          {
+            "type": "argument",
+            "name": "nameOrIndex",
+            "extAttrs": [],
+            "idlType": {
+              "type": "argument-type",
+              "extAttrs": [],
+              "generic": "",
+              "nullable": false,
+              "union": false,
+              "idlType": "DOMString"
+            },
+            "default": null,
+            "optional": true,
+            "variadic": false
+          }
+        ],
+        "extAttrs": [],
+        "special": "legacycaller"
+      }
+    ],
+    "extAttrs": [
+      {
+        "type": "extended-attribute",
+        "name": "Exposed",
+        "rhs": {
+          "type": "identifier",
+          "value": "Window"
+        },
+        "arguments": []
+      }
+    ],
+    "partial": false
+  },
+  {
+    "type": "eof",
+    "value": ""
+  }
+]

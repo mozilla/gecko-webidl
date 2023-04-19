@@ -1,0 +1,11 @@
+[
+  {
+    "type": "bodyless interface",
+    "name": "MozObserver",
+    "extAttrs": []
+  },
+  {
+    "type": "eof",
+    "value": ""
+  }
+]
