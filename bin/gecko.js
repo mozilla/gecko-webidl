@@ -19,7 +19,7 @@ async function rewrite(directories) {
         continue;
       }
 
-      const path = new URL(join(filename, dir), import.meta.url);
+      const path = join(dir, filename);
       const content = await fs.readFile(path, "utf-8");
       const ast = parse(content, filename);
       const validations = webidl2.validate(ast);
