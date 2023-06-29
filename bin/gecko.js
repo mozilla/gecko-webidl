@@ -10,7 +10,7 @@ import { join } from "path";
  *
  * Rewrites content to the original location.
  *
- * @param {string[]]} directories
+ * @param {string[]} directories
  */
 async function rewrite(directories) {
   for (const dir of directories) {
