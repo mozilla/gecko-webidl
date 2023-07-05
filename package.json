@@ -14,7 +14,7 @@
   "type": "module",
   "dependencies": {
     "commander": "^10.0.1",
-    "webidl2": "github:pyoor/webidl2.js#allowed-members"
+    "webidl2": "^24.4.0"
   },
   "devDependencies": {
     "expect": "^29.5.0",
