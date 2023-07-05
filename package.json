@@ -2,16 +2,20 @@
   "name": "gecko-webidl",
   "version": "1.0.0",
   "description": "",
-  "main": "lib/index.js",
-  "bin": {
-    "gecko": "bin/gecko.js"
-  },
   "scripts": {
+    "build": "npx webpack",
+    "build-debug": "npx webpack --mode none",
     "test": "mocha"
   },
   "author": "",
   "license": "ISC",
   "type": "module",
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./lib/index.js"
+    }
+  },
   "dependencies": {
     "commander": "^10.0.1",
     "webidl2": "^24.4.0"
@@ -19,6 +23,8 @@
   "devDependencies": {
     "expect": "^29.5.0",
     "jsondiffpatch": "^0.4.1",
-    "mocha": "^10.2.0"
+    "mocha": "^10.2.0",
+    "webpack": "^5.88.1",
+    "webpack-cli": "^5.1.4"
   }
 }
