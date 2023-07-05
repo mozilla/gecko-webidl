@@ -20,8 +20,7 @@ async function rewrite(directories) {
         continue;
       }
 
-      const path = join(dir, filename);
-      const content = await fs.readFile(path, "utf-8");
+      const content = await fs.readFile(join(dir, filename), "utf-8");
       const ast = parse(content, filename);
       const validations = webidl2.validate(ast);
       if (!validations.length) {
