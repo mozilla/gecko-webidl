@@ -1,9 +1,10 @@
-import { program } from "commander";
 import * as fs from "fs/promises";
-
-import { parse, write } from "../lib/index.js";
 import * as webidl2 from "webidl2";
 import { join } from "path";
+import { program } from "commander";
+
+import { parse, write } from "../lib/index.js";
+
 
 /**
  * Parse and fixup webidls.
