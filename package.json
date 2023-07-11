@@ -5,7 +5,8 @@
   "scripts": {
     "build": "npx webpack",
     "build-debug": "npx webpack --mode none",
-    "test": "mocha"
+    "test": "mocha",
+    "prepublishOnly": "npm run build"
   },
   "author": "Kagami Sascha Rosylight <saschanaz@outlook.com>",
   "license": "ISC",
@@ -26,5 +27,10 @@
     "mocha": "^10.2.0",
     "webpack": "^5.88.1",
     "webpack-cli": "^5.1.4"
-  }
+  },
+  "files": [
+    "dist/*",
+    "lib/*",
+    "bin/*"
+  ]
 }
