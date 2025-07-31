@@ -13,6 +13,7 @@
   "type": "module",
   "exports": {
     ".": {
+      "types": "./lib/index.d.ts",
       "require": "./dist/index.cjs",
       "import": "./lib/index.js"
     }
@@ -22,6 +23,7 @@
     "webidl2": "^24.4.1"
   },
   "devDependencies": {
+    "@types/webidl2": "^24.4.3",
     "expect": "^29.5.0",
     "jsondiffpatch": "^0.4.1",
     "mocha": "^10.2.0",
