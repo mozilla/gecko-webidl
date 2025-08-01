@@ -19,11 +19,11 @@
     }
   },
   "dependencies": {
+    "@types/webidl2": "^24.4.3",
     "commander": "^10.0.1",
     "webidl2": "^24.4.1"
   },
   "devDependencies": {
-    "@types/webidl2": "^24.4.3",
     "expect": "^29.5.0",
     "jsondiffpatch": "^0.4.1",
     "mocha": "^10.2.0",
