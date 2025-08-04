@@ -21,7 +21,7 @@
   "dependencies": {
     "@types/webidl2": "^24.4.3",
     "commander": "^10.0.1",
-    "webidl2": "^24.4.1"
+    "webidl2": "^24.5.0"
   },
   "devDependencies": {
     "expect": "^29.5.0",
